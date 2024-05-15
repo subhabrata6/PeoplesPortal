@@ -1,0 +1,79 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-gap: 20px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+            .image-grid img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease;
+            }
+
+                .image-grid img:hover {
+                    transform: scale(1.05);
+                }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Our Community</h1>
+        <p>Discover the faces behind our vibrant community.</p>
+        <div class="image-grid">
+            <img src="https://source.unsplash.com/200x200/?person" alt="Person 1">
+            <img src="https://source.unsplash.com/200x200/?people" alt="People 2">
+            <img src="https://source.unsplash.com/200x200/?portrait" alt="Portrait 3">
+            <img src="https://source.unsplash.com/200x200/?smiling" alt="Smiling 4">
+            <img src="https://source.unsplash.com/200x200/?face" alt="Face 5">
+            <img src="https://source.unsplash.com/200x200/?happy" alt="Happy 6">
+            <img src="https://source.unsplash.com/200x200/?group" alt="Group 7">
+            <img src="https://source.unsplash.com/200x200/?together" alt="Together 8">
+        </div>
+    </div>
+</body>
+</html>
+
