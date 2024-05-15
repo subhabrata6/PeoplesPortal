@@ -16,6 +16,8 @@ namespace TestEmployeeApp.Pages.Peoples
         public List<Country> Countries { get; set; }
         [BindProperty]
         public int SelectedCountry { get; set; }
+        [BindProperty]
+        public int SelectedState { get; set; }
 
         [BindProperty]
         public List<State> States { get; set; }
@@ -39,6 +41,9 @@ namespace TestEmployeeApp.Pages.Peoples
         {
             if (ModelState.IsValid)
             {
+                NewPeople.countryId = SelectedCountry;
+                NewPeople.stateId = SelectedState;
+
                 ResponseMessage response = new PeopleDbAccess(_configuration).SavePeople(NewPeople);
 
                 if (response.Status == System.Net.HttpStatusCode.OK)
@@ -62,10 +67,6 @@ namespace TestEmployeeApp.Pages.Peoples
             States = (List<State>)stateResponse.Response;
         }
 
-        public void editEntry(int id)
-        {
-
-        }
         public void deleteEntry(int id)
         {
 

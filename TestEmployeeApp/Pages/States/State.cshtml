@@ -1,4 +1,152 @@
 ﻿@page
+@using TestEmployeeApp.Model
 @model TestEmployeeApp.Pages.States.StateModel
 @{
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>List Of States</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                padding-top: 20px;
+            }
+
+            .form-header {
+                border: 1px solid #ccc;
+                padding: 20px;
+                border-radius: 8px;
+            }
+
+            .form-row {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+
+            .form-group {
+                flex-grow: 1;
+                margin-right: 10px;
+                margin-bottom: 10px;
+            }
+
+            .table {
+                border: 1px solid #ccc;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+                .table th, .table td {
+                    border: 1px solid #ccc;
+                    padding: 8px;
+                }
+
+                .table th {
+                    background-color: #f2f2f2;
+                }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <h1 class="mb-4 text-center">List Of States</h1>
+
+                    <div class="form-header">
+                        <form method="post">
+                            <div class="form-row align-items-center">
+                                <div class="col">
+                                    <input type="hidden" id="id" name="NewState.id" value="@Model.NewState.id" />
+                                    <label for="name">Name</label>
+                                    <input type="text" id="state" name="NewState.state" class="form-control" placeholder="Enter State Name" value="@Model.NewState.state" />
+                                </div>
+                                <div class="col">
+                                    <label>Country</label>
+                                    <select asp-for="SelectedCountry" class="form-control" name="NewState.countryId" id="countryId">
+                                        <option value="0">Select Country</option>
+                                        @foreach (Country item in Model.CountryList)
+                                        {
+                                            <option value="@item.id">@item.countryName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-auto" style="margin-top: 30px;">
+                                    <div class="clearfix"></div>
+                                    <button type="submit" class="btn btn-primary">Add State</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">State Name</th>
+                                <th scope="col">Country Name</th>
+                                <th scope="col">Created On</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (State item in Model.StateList)
+                            {
+                                <tr>
+                                    <td>@item.state</td>
+                                    <td>@item.countryName</td>
+                                    <td>@item.createdOn</td>
+                                    <td>
+                                        <!-- Delete Button -->
+                                        <a href="#" class="btn btn-danger" onclick="deleteEntry('@item.id')">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                        <!-- Edit Button -->
+                                        <a href="#" class="btn btn-primary" onclick="editEntry('@item.id')">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Warning HTML -->
+        <div id="customAlert" class="alert alert-warning alert-dismissible fade show" role="alert" style="display: none;">
+            <!-- Alert message content -->
+            Are you sure you want to delete this ?
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <!-- Confirm HTML -->
+        <div id="customConfirm" class="custom-confirm">
+            <div class="custom-confirm-content">
+                <p id="confirmMessage">Are you sure you want to perform this action?</p>
+                <div class="buttons">
+                    <button id="confirmButton">Confirm</button>
+                    <button id="cancelButton">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            // JavaScript to display the custom alert
+            function displayCustomAlert() {
+                document.getElementById("customAlert").style.display = "block";
+            }
+        </script>
+    </body>
+
+    </html>
+
 }

@@ -44,7 +44,8 @@ namespace TestEmployeeApp.DBAccess
                     foreach (DataRow row in countryDt.Rows)
                     {
                         Country country = new Country();
-                        country.countryName = Helper.GetDBStringValue(row["DESCRIPTION"]);
+                        country.countryName = Helper.GetDBStringValue(row["COUNTRY_NAME"]);
+                        country.createdOn = Helper.GetDBStringValue(row["CREATED_ON"]);
                         country.id = Helper.GetDBIntValue(row["ID"]);
 
                         countryList.Add(country);
@@ -75,6 +76,62 @@ namespace TestEmployeeApp.DBAccess
                 }
                 conn.Dispose();
                 da.Dispose();
+            }
+
+            return response;
+        }
+
+        public ResponseMessage SaveCountry(Country newCountry)
+        {
+            ResponseMessage response = new ResponseMessage();
+
+            string connStr = Helper.GetConnectionString(_configuration);
+
+            SqlConnection conn = null;
+            SqlCommand cmd = null;
+            SqlTransaction transaction = null;
+
+            try
+            {
+                conn = new SqlConnection(connStr);
+                conn.Open();
+                transaction = conn.BeginTransaction();
+                cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "SAVE_COUNTRY";
+                cmd.Transaction = transaction;
+                cmd.Parameters.AddWithValue("@ID", newCountry.id);
+                cmd.Parameters.AddWithValue("@NAME", newCountry.countryName);
+
+                int rows = cmd.ExecuteNonQuery();
+
+                if (rows > 0)
+                {
+                    transaction.Commit();
+                    response.Status = HttpStatusCode.OK;
+                    response.Message = "Saved successfully";
+                }
+                else
+                {
+                    transaction.Rollback();
+                    response.Status = HttpStatusCode.BadRequest;
+                    response.Message = "Failed to save new country";
+                }
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                response.Status = HttpStatusCode.InternalServerError;
+                response.Message = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                conn.Dispose();
             }
 
             return response;
