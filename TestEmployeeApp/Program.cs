@@ -32,7 +32,9 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
 }
 app.UseStaticFiles();
+app.UseAuthorization();
 app.UseAuthentication();
+
 app.UseRouting();
 
 app.UseEndpoints(endpoints =>
