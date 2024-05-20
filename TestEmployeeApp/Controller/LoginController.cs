@@ -20,7 +20,7 @@ namespace TestEmployeeApp.Controller
         [Route("AuthenticateUser")]
         public IActionResult AuthenticateUser([FromBody]AccountModel account)
         {
-            ResponseMessage result = new AccountDbAccess(_configuration, _httpContextAccessor).AuthenticateUser(account);
+            ResponseMessage result = new AccountDbAccess(_configuration).AuthenticateUser(account);
             if (result.Status == System.Net.HttpStatusCode.OK)
             {
                 return Ok(result);
@@ -35,7 +35,7 @@ namespace TestEmployeeApp.Controller
         [Route("RegisterUser")]
         public IActionResult RegisterUser([FromBody] AccountModel account)
         {
-            ResponseMessage result = new AccountDbAccess(_configuration, _httpContextAccessor).RegisterUser(account);
+            ResponseMessage result = new AccountDbAccess(_configuration).RegisterUser(account);
             if (result.Status == System.Net.HttpStatusCode.OK)
             {
                 return Ok(result);

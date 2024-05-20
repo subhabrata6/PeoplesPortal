@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using TestEmployeeApp.DBAccess;
 using TestEmployeeApp.Model;
@@ -6,6 +7,7 @@ using TestEmployeeApp.Model;
 namespace TestEmployeeApp.Controller
 {
     [Route("[controller]")]
+    [Authorize]
     public class PeopleController : ControllerBase
     {
         private readonly IConfiguration _configuration;

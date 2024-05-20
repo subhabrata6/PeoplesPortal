@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using TestEmployeeApp.Authentication;
 using Microsoft.Extensions.Configuration;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -9,20 +10,33 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/").AllowAnonymousToPage("/Account/Login");
+});
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-        .AddCookie(options =>
-        {
-            options.Cookie.HttpOnly = true;
-            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            options.Cookie.SameSite = SameSiteMode.Strict;
-            options.LoginPath = "/Account/Login";
-            options.AccessDeniedPath = "/Account/Login";
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+        options.SlidingExpiration = true;
+        options.AccessDeniedPath = "/Forbidden/";
+    });
 
-            // Configure other options as needed
-        });
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+//        .AddCookie(options =>
+//        {
+//            options.Cookie.HttpOnly = true;
+//            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+//            options.Cookie.SameSite = SameSiteMode.Strict;
+//            options.LoginPath = "/Account/Login";
+//            options.AccessDeniedPath = "/Account/Login";
+
+//            // Configure other options as needed
+//        });
 
 var app = builder.Build();
 
@@ -32,24 +46,42 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
 }
 app.UseStaticFiles();
-app.UseAuthorization();
-app.UseAuthentication();
 
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapRazorPages();
+app.MapDefaultControllerRoute();
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.Strict,
+});
+
+//app.UseMvc(routes =>
+//{
+//    routes.MapRoute(
+//        name: "default",
+//        template: "{controller=Home}/{action=Index}/{id?}");
+//});
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Account}/{action=Login}/{id?}");
 });
-
-app.MapControllers();
-app.MapGet("/", context =>
-{
-    context.Response.Redirect("/Account/Login");
-    return Task.CompletedTask;
+app.UseSwagger();
+app.UseSwaggerUI(c => {
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V2");
 });
-app.MapRazorPages();
+
+
+//app.MapControllers();
+//app.MapGet("/", context =>
+//{
+//    context.Response.Redirect("/Account/Login");
+//    return Task.CompletedTask;
+//});
 
 app.Run();

@@ -198,6 +198,7 @@
 
             function GetStateByCountry() {
                 let selectedCountry = $('#countryId option:selected').val();
+                debugger
                 $.ajax({
                     url: "/People/GetStateList/" + selectedCountry,
                     method: "GET",

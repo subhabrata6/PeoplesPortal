@@ -5,69 +5,111 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 using TestEmployeeApp.Model;
+using TestEmployeeApp.DBAccess;
+using Microsoft.AspNetCore.Http;
 
 namespace TestEmployeeApp.Pages.Account
 {
     public class LoginModel : PageModel
     {
+        private readonly IConfiguration _configuration;
         [BindProperty]
         public AccountModel Account { get; set; }
+        public string ErrorMessage { get; set; }
+        public string ReturnUrl { get; set; }
 
-        public void OnGet()
+        //public void OnGet()
+        //{
+        //    Account = new AccountModel { UserName = "Test" };
+        //}
+
+        public LoginModel(IConfiguration configuration)
         {
-            Account =  new AccountModel { UserName = "Test" };
+            _configuration = configuration;
         }
 
-        private readonly SignInManager<IdentityUser> _signInManager;
-
-        public LoginModel(SignInManager<IdentityUser> signInManager)
+        public async Task OnGetAsync(string returnUrl = null)
         {
-            _signInManager = signInManager;
-        }
-
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (ModelState.IsValid)
+            Account = new AccountModel { UserName = "Test" };
+            if (!string.IsNullOrEmpty(ErrorMessage))
             {
-                var result = await _signInManager.PasswordSignInAsync(Account.UserName, Account.Password, false, lockoutOnFailure: false);
-
-                if (result.Succeeded)
-                {
-                    // Retrieve the authenticated user
-                    var user = await _signInManager.UserManager.FindByNameAsync(Account.UserName);
-
-                    // Create claims for the user (example: role claim)
-                    var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, Account.UserName),
-                    // Add additional claims as needed
-                };
-
-                    // Add role claim if the user belongs to a role
-                    var roles = await _signInManager.UserManager.GetRolesAsync(user);
-                    foreach (var role in roles)
-                    {
-                        claims.Add(new Claim(ClaimTypes.Role, role));
-                    }
-
-                    // Create identity with claims
-                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    // Sign in the user with the claims-based identity
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
-
-                    // Redirect to a secure page
-                    return RedirectToPage("/SecurePage");
-                }
-                else
-                {
-                    // Authentication failed, show an error message
-                    ViewData["Error"] = "Invalid username or password.";
-                    return Page();
-                }
+                ModelState.AddModelError(string.Empty, ErrorMessage);
             }
 
-            // Model is not valid, return the login page
+            // Clear the existing external cookie
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme);
+
+            ReturnUrl = returnUrl;
+        }
+
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        {
+            ReturnUrl = returnUrl;
+
+            if (ModelState.IsValid)
+            {
+                // Use Input.Email and Input.Password to authenticate the user
+                // with your custom authentication logic.
+                //
+                // For demonstration purposes, the sample validates the user
+                // on the email address maria.rodriguez@contoso.com with 
+                // any password that passes model validation.
+
+                var user = new AccountDbAccess(_configuration).AuthenticateUser(Account);
+
+                if (user.Status != System.Net.HttpStatusCode.OK)
+                {
+                    TempData["AlertMessage"] = user.Message;
+                    return Page();
+                }
+                TempData["AlertMessage"] = null;
+
+                var claims = new List<Claim>
+                            {
+                                new Claim(ClaimTypes.Email, Account.Email),
+                                new Claim(ClaimTypes.Name, user.Response?.ToString()),
+                                new Claim(ClaimTypes.Role, "Administrator"),
+                            };
+
+                var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var authProperties = new AuthenticationProperties
+                {
+                    AllowRefresh = true,
+                    // Refreshing the authentication session should be allowed.
+
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                    // The time at which the authentication ticket expires. A 
+                    // value set here overrides the ExpireTimeSpan option of 
+                    // CookieAuthenticationOptions set with AddCookie.
+
+                    IsPersistent = true,
+                    // Whether the authentication session is persisted across 
+                    // multiple requests. When used with cookies, controls
+                    // whether the cookie's lifetime is absolute (matching the
+                    // lifetime of the authentication ticket) or session-based.
+
+                    //IssuedUtc = <DateTimeOffset>,
+                    // The time at which the authentication ticket was issued.
+
+                    //RedirectUri = <string>
+                    // The full path or absolute URI to be used as an http 
+                    // redirect response value.
+                };
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+                //
+                //Response.Cookies.Append("LoginCookie", "cookieValue", cookieOptions);
+
+                return LocalRedirect("/Index");
+            }
+
+            // Something failed. Redisplay the form.
             return Page();
         }
     }

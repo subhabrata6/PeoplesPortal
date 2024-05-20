@@ -15,13 +15,11 @@ namespace TestEmployeeApp.DBAccess
     public class AccountDbAccess
     {
         private readonly IConfiguration _configuration;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private const string encryptionKey = "LEO_MESSI_10";
-        public AccountDbAccess(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        public AccountDbAccess(IConfiguration configuration)
         {
 
             _configuration = configuration;
-            _httpContextAccessor = httpContextAccessor;
         }
         public ResponseMessage AuthenticateUser(AccountModel account)
         {
