@@ -26,3 +26,40 @@
 button {
     margin-left: 10px;
 }
+
+.required-label::after {
+    content: "*";
+    color: red; /* You can change the color as needed */
+    margin-left: 5px; /* Adjust spacing as needed */
+}
+
+.tableRow {
+    background-color: #86acef;
+}
+
+/* Media Query for Responsive Design */
+@media only screen and (max-width: 768px) {
+    .image-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-group {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group.float-lg-end {
+            margin-top: 10px;
+        }
+}

@@ -2,6 +2,7 @@
 @using TestEmployeeApp.Model
 @model TestEmployeeApp.Pages.Peoples.PeopleModel
 @{
+    var alertMessage = TempData["AlertMessage"];
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -56,24 +57,25 @@
     <body>
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <h1 class="mb-4 text-center">List Of People</h1>
 
                     <div class="form-header">
                         <form method="post">
+                            <div asp-validation-summary="ModelOnly"></div>
                             <div class="form-row">
-                                <div class="form-group">
+                                <div class="form-group col-3">
                                     <input type="hidden" id="id" name="NewPeople.id" value="@Model.NewPeople.id" />
-                                    <label>Name</label>
-                                    <input type="text" id="name" name="NewPeople.name" class="form-control" placeholder="Enter Person Name" value="@Model.NewPeople.name" />
+                                    <label class="form-label required-label">Name</label>
+                                    <input type="text" id="name" name="NewPeople.name" class="form-control" placeholder="Enter Person Name" value="@Model.NewPeople.name" required/>
                                 </div>
-                                <div class="form-group">
-                                    <label>Age</label>
-                                    <input type="number" id="age" name="NewPeople.age" class="form-control" placeholder="Enter Person Age" value="@Model.NewPeople.age" />
+                                <div class="form-group col-3">
+                                    <label class="form-label required-label">Age</label>
+                                    <input type="number" id="age" name="NewPeople.age" class="form-control" placeholder="Enter Person Age" value="@Model.NewPeople.age" required />
                                 </div>
-                                <div class="form-group">
-                                    <label>Country</label>
-                                    <select asp-for="SelectedCountry" class="form-control" onchange="GetStateByCountry();" id="countryId">
+                                <div class="form-group col-3">
+                                    <label class="form-label required-label">Country</label>
+                                    <select asp-for="SelectedCountry" class="form-control" onchange="GetStateByCountry();" id="countryId" required>
                                         <option value="0">Select Country</option>
                                         @foreach (Country item in Model.Countries)
                                         {
@@ -81,9 +83,9 @@
                                         }
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label>State</label>
-                                    <select asp-for="SelectedState" class="form-control" id="stateId">
+                                <div class="form-group col-3">
+                                    <label class="form-label required-label">State</label>
+                                    <select asp-for="SelectedState" class="form-control" id="stateId" required>
                                         <option value="0">Select State</option>
                                         @foreach (State item in Model.States)
                                         {
@@ -91,12 +93,19 @@
                                         }
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label>Description</label>
+                                <div class="form-group col-3">
+                                    <label class="form-label">Description</label>
                                     <input type="text" id="description" name="NewPeople.description" class="form-control" placeholder="Enter Person Description" value="@Model.NewPeople.description" />
                                 </div>
-                                <div class="form-group float-lg-end" style="margin-top: 30px;">
+                                <div class="form-group col-3 float-lg-end" style="margin-top: 30px;">
                                     <button type="submit" class="btn btn-primary">Add Person</button>
+
+                                    @if (alertMessage != null)
+                                    {
+                                        <script type="text/javascript">
+                                            alert('@alertMessage');
+                                        </script>
+                                    }
                                 </div>
                             </div>
                         </form>

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TestEmployeeApp.DBAccess;
 using TestEmployeeApp.HelperClass;
@@ -44,6 +45,14 @@ namespace TestEmployeeApp.Pages.Peoples
                 NewPeople.countryId = SelectedCountry;
                 NewPeople.stateId = SelectedState;
 
+                if (!ValidEntry(NewPeople))
+                {
+                    // Add a model error or use the TempData to convey messages to the user if needed
+                    ModelState.AddModelError(string.Empty, "The entry is not valid.");
+                    OnGet();
+                    return Page();
+                }
+
                 ResponseMessage response = new PeopleDbAccess(_configuration).SavePeople(NewPeople);
 
                 if (response.Status == System.Net.HttpStatusCode.OK)
@@ -52,13 +61,41 @@ namespace TestEmployeeApp.Pages.Peoples
                 }
                 else
                 {
-                    return BadRequest();
-                } 
+                    ModelState.AddModelError(string.Empty, "An error occurred while saving the data.");
+                    return Page(); // Return the page to show the error
+                }
             }
             else
             {
                 return Forbid();
             }
+        }
+
+        private bool ValidEntry(People newPeople)
+        {
+            if(string.IsNullOrEmpty(newPeople.name))
+            {
+                TempData["AlertMessage"] = "Please enter person name!";
+                return false;
+            }
+            if (newPeople.age <= 0)
+            {
+                TempData["AlertMessage"] = "Please enter valid age of person!";
+                return false;
+            }
+            if (newPeople.countryId <= 0)
+            {
+                TempData["AlertMessage"] = "Please select country of person!";
+                return false;
+            }
+            if (newPeople.stateId <= 0)
+            {
+                TempData["AlertMessage"] = "Please select state of person!";
+                return false;
+            }
+
+            return true;
+            
         }
 
         public void GetStateByCountry()

@@ -38,9 +38,8 @@
         }
 
         .image-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            grid-gap: 20px;
+            display: flex;
+            flex-wrap: wrap;
             justify-content: center;
             align-items: center;
             margin-top: 40px;
@@ -57,6 +56,7 @@
                 .image-grid img:hover {
                     transform: scale(1.05);
                 }
+
     </style>
 </head>
 <body>
@@ -64,16 +64,10 @@
         <h1>Welcome to Our Community</h1>
         <p>Discover the faces behind our vibrant community.</p>
         <div class="image-grid">
-            <img src="https://source.unsplash.com/200x200/?person" alt="Person 1">
-            <img src="https://source.unsplash.com/200x200/?people" alt="People 2">
-            <img src="https://source.unsplash.com/200x200/?portrait" alt="Portrait 3">
-            <img src="https://source.unsplash.com/200x200/?smiling" alt="Smiling 4">
-            <img src="https://source.unsplash.com/200x200/?face" alt="Face 5">
-            <img src="https://source.unsplash.com/200x200/?happy" alt="Happy 6">
-            <img src="https://source.unsplash.com/200x200/?group" alt="Group 7">
-            <img src="https://source.unsplash.com/200x200/?together" alt="Together 8">
+            <img src="/Resources/Logo.png" alt="Person 1">
         </div>
     </div>
 </body>
 </html>
+
 

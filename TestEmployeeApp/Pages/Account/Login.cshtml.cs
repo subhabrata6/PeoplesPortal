@@ -49,12 +49,6 @@ namespace TestEmployeeApp.Pages.Account
 
             if (ModelState.IsValid)
             {
-                // Use Input.Email and Input.Password to authenticate the user
-                // with your custom authentication logic.
-                //
-                // For demonstration purposes, the sample validates the user
-                // on the email address maria.rodriguez@contoso.com with 
-                // any password that passes model validation.
 
                 var user = new AccountDbAccess(_configuration).AuthenticateUser(Account);
 
