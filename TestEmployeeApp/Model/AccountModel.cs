@@ -13,4 +13,10 @@ namespace TestEmployeeApp.Model
         public string Password { get; set; }
         public string? ConfirmPassword { get; set; }
     }
+
+    public class UserRoleModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
 }

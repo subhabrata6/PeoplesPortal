@@ -40,6 +40,8 @@ namespace TestEmployeeApp.Pages.Account
             await HttpContext.SignOutAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme);
 
+            ModelState.Clear();
+
             ReturnUrl = returnUrl;
         }
 
