@@ -5,7 +5,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - People's Portal App</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Custom.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TestEmployeeApp.styles.css" asp-append-version="true" />
@@ -24,9 +25,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/RoleCreation/UserRoles">Roles</a>
-                        </li>
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="rolesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Roles
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="rolesDropdown">
+                                    <li><a class="dropdown-item" asp-area="" asp-page="/RoleCreation/UserRoles">User Roles</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-page="/RoleCreation/AssignRoles">Assign Roles</a></li>
+                                </ul>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Peoples/People">People</a>
                         </li>
@@ -36,19 +47,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/States/State">State</a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="leavesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Leave
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="leavesDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-page="/Leave/EmployeeLeaves">Leave History</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-page="/Leave/ApplyLeave">Apply Leave</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown">
 
-                                @* @if (User.Identity.IsAuthenticated)
-                                {
-                                <li>Welcome, @User.Identity.Name!</li>
-                                <li><a href="/Account/Logout">Logout</a></li>
-                                }
-                                else
-                                {
-                                <li><a href="/Account/Login">Login</a></li>
-                                } *@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-user-circle"></i> <!-- Font Awesome icon for user -->
                                  <!-- Replace [Current User] with the actual username -->

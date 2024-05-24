@@ -19,6 +19,7 @@ namespace TestEmployeeApp.Controller
 
         [HttpGet]
         [Route("EditPeople/{id}")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult EditPeople(int id)
         {
             ResponseMessage editResponse = new PeopleDbAccess(_configuration).GetPeopleById(id);

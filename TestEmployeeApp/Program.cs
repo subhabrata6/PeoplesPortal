@@ -13,10 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/").AllowAnonymousToPage("/Account/Login");
 });
+builder.Services.AddMvc();
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -30,17 +32,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddAntiforgery(options => options.HeaderName = "XSRF-TOKEN");
 
-//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-//        .AddCookie(options =>
-//        {
-//            options.Cookie.HttpOnly = true;
-//            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-//            options.Cookie.SameSite = SameSiteMode.Strict;
-//            options.LoginPath = "/Account/Login";
-//            options.AccessDeniedPath = "/Account/Login";
-
-//            // Configure other options as needed
-//        });
 
 var app = builder.Build();
 
@@ -55,6 +46,7 @@ app.UseRouting();
 app.UseDeveloperExceptionPage();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMvc();
 
 app.MapRazorPages();
 app.MapDefaultControllerRoute();

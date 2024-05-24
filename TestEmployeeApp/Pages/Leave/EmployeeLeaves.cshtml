@@ -1,0 +1,125 @@
+﻿@page
+@model TestEmployeeApp.Pages.Leave.EmployeeLeavesModel
+@{
+    ViewData["Title"] = "Employee Leave";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Leave</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Employee Leave</h2>
+
+        <div>
+            <form id="searchForm">
+                <div class="form-group">
+                    <label for="employeeName">Employee Name:</label>
+                    <input type="text" id="employeeName" name="employeeName" class="form-control autocomplete" />
+                </div>
+                <div class="form-group">
+                    <label for="leaveType">Leave Type:</label>
+                    <select id="leaveType" name="leaveType" class="form-control">
+                        <option value="annual">Annual Leave</option>
+                        <option value="sick">Sick Leave</option>
+                        <option value="maternity">Maternity Leave</option>
+                        <option value="paternity">Paternity Leave</option>
+                        <!-- Add other leave types as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="searchButton" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Serial No.</th>
+                        <th>Applicant</th>
+                        <th>Leave Type</th>
+                        <th>No. of Days</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="leaveTableBody">
+                    <!-- Rows will be inserted here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script>
+            $(function () {
+                // Autocomplete functionality
+                // $(".autocomplete").autocomplete({
+                //     source: function (request, response) {
+                //         $.ajax({
+                //             url: '',
+                //             dataType: "json",
+                //             data: {
+                //                 term: request.term
+                //             },
+                //             success: function (data) {
+                //                 response(data);
+                //             }
+                //         });
+                //     },
+                //     minLength: 2
+                // });
+
+                // Search button click event
+                // $('#searchButton').click(function () {
+                //     var employeeName = $('#employeeName').val();
+                //     var leaveType = $('#leaveType').val();
+
+                //     $.ajax({
+                //         url: '@Url.Action("SearchLeaves", "Leave")',
+                //         type: 'GET',
+                //         data: {
+                //             employeeName: employeeName,
+                //             leaveType: leaveType
+                //         },
+                //         success: function (data) {
+                //             // Clear existing table rows
+                //             $('#leaveTableBody').empty();
+
+                //             // Populate table with returned data
+                //             $.each(data, function (index, leave) {
+                //                 var row = '<tr>' +
+                //                     '<td>' + (index + 1) + '</td>' +
+                //                     '<td>' + leave.LeaveType + '</td>' +
+                //                     '<td>' + leave.NoOfDays + '</td>' +
+                //                     '<td>' + leave.Reason + '</td>' +
+                //                     '<td>' + leave.Status + '</td>' +
+                //                     '<td>' +
+                //                     '<button class="btn btn-sm btn-primary">Edit</button> ' +
+                //                     '<button class="btn btn-sm btn-danger">Delete</button>' +
+                //                     '</td>' +
+                //                     '</tr>';
+                //                 $('#leaveTableBody').append(row);
+                //             });
+                //         },
+                //         error: function () {
+                //             alert('Error retrieving leave data.');
+                //         }
+                //     });
+                // });
+            });
+        </script>
+    }
+</body>
+</html>

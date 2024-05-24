@@ -1,0 +1,122 @@
+﻿@page
+@using TestEmployeeApp.Model
+@model TestEmployeeApp.Pages.Leave.ApplyLeaveModel
+@{
+    ViewData["Title"] = "Apply Leave";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply Leave</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Apply Leave</h2>
+
+        <form method="post">
+            <div class="form-group row">
+                <label asp-for="NewLeave.FromDate" class="col-sm-2 col-form-label">From Date:</label>
+                <div class="col-sm-10">
+                    <input asp-for="NewLeave.FromDate" id="FromDate" class="form-control" type="date" required />
+                    <span asp-validation-for="NewLeave.FromDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="NewLeave.ToDate" class="col-sm-2 col-form-label">To Date:</label>
+                <div class="col-sm-10">
+                    <input asp-for="NewLeave.ToDate" id="ToDate" class="form-control" type="date" required />
+                    <span asp-validation-for="NewLeave.ToDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="NewLeave.NumberOfDays" class="col-sm-2 col-form-label">Number of Days:</label>
+                <div class="col-sm-10">
+                    <input asp-for="NewLeave.NumberOfDays" id="NumberOfDays" class="form-control" readonly />
+                    <span asp-validation-for="NewLeave.NumberOfDays" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="NewLeave.LeaveType" class="col-sm-2 col-form-label">Leave Type:</label>
+                <div class="col-sm-10">
+                    <select asp-for="NewLeave.LeaveType" id="LeaveType" class="form-control" required>
+                        <option value="0">Select Leave Type</option>
+                        <option value="1">Full Day</option>
+                        <option value="2">Half Day</option>
+                        <option value="3">Early Leave</option>
+                        <option value="4">Paternity Leave</option>
+                        <option value="5">Maternity Leave</option>
+                        <option value="6">Marriage Leave</option>
+                        <option value="7">Comp Off</option>
+                    </select>
+                    <span asp-validation-for="NewLeave.LeaveType" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row" id="earlyLeaveTime" style="display:none">
+                <label asp-for="NewLeave.LeaveTime" class="col-sm-2 col-form-label">Leave Time</label>
+                <div class="col-sm-10">
+                    <select asp-for="NewLeave.LeaveTime" id="LeaveTime" class="form-control" required>
+                        <option value="0">Select Leave Time</option>
+                        <option value="1">05:00 PM</option>
+                        <option value="2">05:30 PM</option>
+                        <option value="3">06:00 PM</option>
+                        <option value="4">06:30 PM</option>
+                        <option value="5">07:00 PM</option>
+                        <option value="6">07:30 PM</option>
+                        <option value="7">08:00 PM</option>
+                    </select>
+                    <span asp-validation-for="NewLeave.LeaveTime" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="NewLeave.Reason" class="col-sm-2 col-form-label">Reason for Leave:</label>
+                <div class="col-sm-10">
+                    <textarea asp-for="NewLeave.Reason" class="form-control" rows="4" required></textarea>
+                    <span asp-validation-for="NewLeave.Reason" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10 offset-sm-2">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.close();">Close</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            function calculateNumberOfDays() {
+                
+                var fromDate = new Date($("#FromDate").val());
+                var toDate = new Date($("#ToDate").val());
+
+                if (fromDate && toDate && fromDate <= toDate) {
+                    var timeDiff = Math.abs(toDate - fromDate);
+                    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1; // Add 1 to include the last day
+                    $("#NumberOfDays").val(diffDays);
+                } else {
+                    $("#NumberOfDays").val('');
+                }
+            }
+
+            $("#FromDate, #ToDate").on("change", calculateNumberOfDays);
+            $("#LeaveType").on("change", function () {
+                if ($("#LeaveType").val() == 3) {
+                    $("#earlyLeaveTime").show();
+                }
+                else { 
+                    $("#earlyLeaveTime").hide();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

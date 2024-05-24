@@ -52,7 +52,7 @@ namespace TestEmployeeApp.Pages.Account
             if (ModelState.IsValid)
             {
 
-                var user = new AccountDbAccess(_configuration).AuthenticateUser(Account);
+                ResponseMessage user = new AccountDbAccess(_configuration).AuthenticateUser(Account);
 
                 if (user.Status != System.Net.HttpStatusCode.OK)
                 {
@@ -61,11 +61,14 @@ namespace TestEmployeeApp.Pages.Account
                 }
                 TempData["AlertMessage"] = null;
 
+                var userRole = (AssignRole)user.Response;
+
                 var claims = new List<Claim>
                             {
                                 new Claim(ClaimTypes.Email, Account.Email),
-                                new Claim(ClaimTypes.Name, user.Response?.ToString()),
-                                new Claim(ClaimTypes.Role, "Administrator"),
+                                new Claim(ClaimTypes.Name, userRole.UserName),
+                                new Claim(ClaimTypes.Role, userRole.RoleName),
+                                new Claim(ClaimTypes.NameIdentifier, userRole.UserId.ToString())
                             };
 
                 var claimsIdentity = new ClaimsIdentity(
@@ -94,7 +97,7 @@ namespace TestEmployeeApp.Pages.Account
                     // The full path or absolute URI to be used as an http 
                     // redirect response value.
                 };
-
+                HttpContext.User.AddIdentity(claimsIdentity);
                 await HttpContext.SignInAsync(
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity),
