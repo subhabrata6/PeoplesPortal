@@ -61,8 +61,8 @@ namespace PeoplesPortalNUnitTest
             //For new insertion
             People myPeople = new People();
             myPeople.id = 0;
-            myPeople.name = "Subhabrata Saha";
-            myPeople.description = "Best Husband Available in India";
+            myPeople.name = "New Tester";
+            myPeople.description = "Tester";
             myPeople.countryId = 1;
             myPeople.stateId = 1;
             myPeople.age = 20;
@@ -82,7 +82,7 @@ namespace PeoplesPortalNUnitTest
             People myPeople = new People();
             myPeople.id = 14;
             myPeople.name = "Subhabrata Saha";
-            myPeople.description = "Best Husband Available in India";
+            myPeople.description = "Software Developer";
             myPeople.countryId = 1;
             myPeople.stateId = 8;
             myPeople.age = 20;

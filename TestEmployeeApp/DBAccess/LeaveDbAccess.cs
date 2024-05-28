@@ -107,16 +107,16 @@ namespace TestEmployeeApp.DBAccess
                     foreach (DataRow row in peopleDt.Rows)
                     {
                         LeaveModule leave = new LeaveModule();
-                        leave.FromDate = Helper.GetDBStringValue(row["DESCRIPTION"]);
-                        leave.ToDate = Helper.GetDBStringValue(row["AGE"]);
-                        leave.LeaveTypeName = Helper.GetDBStringValue(row["NAME"]);
-                        leave.Id = Helper.GetDBIntValue(row["ID"]);
-                        leave.Reason = Helper.GetDBStringValue(row["COUNTRY_NAME"]);
-                        leave.Status = Helper.GetDBStringValue(row["STATE"]);
-                        leave.CreatedBy = Helper.GetDBStringValue(row["CREATED_ON"]);
-                        leave.CreatedOn = Helper.GetDBStringValue(row["AGE"]);
-                        leave.ApprovedBy = Helper.GetDBStringValue(row["AGE"]);
-                        leave.ApprovedOn = Helper.GetDBStringValue(row["AGE"]);
+                        leave.FromDate = Helper.GetDBStringValue(row["FROM_DATE"]);
+                        leave.ToDate = Helper.GetDBStringValue(row["TO_DATE"]);
+                        leave.LeaveTypeName = Helper.GetDBStringValue(row["LEAVE_TYPE"]);
+                        leave.Id = Helper.GetDBIntValue(row["LEAVE_ID"]);
+                        leave.Reason = Helper.GetDBStringValue(row["REASON"]);
+                        leave.Status = Helper.GetDBStringValue(row["LEAVE_STATUS"]);
+                        leave.CreatedBy = Helper.GetDBStringValue(row["CREATED_BY"]);
+                        leave.CreatedOn = Helper.GetDBStringValue(row["CREATED_ON"]);
+                        leave.ApprovedBy = Helper.GetDBStringValue(row["APPROVED_BY"]);
+                        leave.ApprovedOn = Helper.GetDBStringValue(row["APPROVED_ON"]);
 
                         leaves.Add(leave);
                     }

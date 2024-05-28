@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Claims;
+using TestEmployeeApp.DBAccess;
 using TestEmployeeApp.Model;
 
 namespace TestEmployeeApp.Pages.Leave
@@ -15,7 +17,12 @@ namespace TestEmployeeApp.Pages.Leave
         }
         public void OnGet()
         {
-            
+            string currentuser = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            ResponseMessage result = new LeaveDbAccess(_configuration).GetLeaveList(currentuser);
+            if (result.Status == System.Net.HttpStatusCode.OK)
+            {
+                LeaveList = (List<LeaveModule>)result.Response;
+            }
         }
     }
 }

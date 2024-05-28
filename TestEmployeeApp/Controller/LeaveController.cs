@@ -30,5 +30,20 @@ namespace TestEmployeeApp.Controller
                 return NotFound(result);
             }
         }
+
+        [HttpGet]
+        public IActionResult GetLeaveList()
+        {
+            string currentuser = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            ResponseMessage result = new LeaveDbAccess(_configuration).GetLeaveList(currentuser);
+            if (result.Status == System.Net.HttpStatusCode.OK)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound(result);
+            }
+        }
     }
 }
