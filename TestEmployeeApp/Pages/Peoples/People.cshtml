@@ -8,9 +8,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
         <title>List Of People</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="~/js/site.js" asp-append-version="true"></script>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -182,7 +184,7 @@
                 console.log("Editing entry with ID: " + id);
 
                 $.ajax({
-                    url: "/People/EditPeople/" + id,
+                    url: webApi + "api/People/EditPeople/" + id,
                     method: "GET",
                     cache: false,
                     contentType: "application/json",
@@ -209,7 +211,7 @@
                 let selectedCountry = $('#countryId option:selected').val();
                 debugger
                 $.ajax({
-                    url: "/People/GetStateList/" + selectedCountry,
+                    url: webApi + "api/People/GetStateList/" + selectedCountry,
                     method: "GET",
                     cache: false,
                     contentType: "application/json",
@@ -238,7 +240,7 @@
                 if(confirm("Are you sure you want to delete this?"))
                 {
                     $.ajax({
-                        url: "/People/DeletePeople/" + id,
+                        url: webApi + "api/People/DeletePeople/" + id,
                         method: "GET",
                         cache: false,
                         contentType: "application/json",

@@ -12,6 +12,7 @@
         <title>@ViewData["Title"]</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="~/js/site.js" asp-append-version="true"></script>
         <style>
             .tab-pane {
                 padding-top: 20px;
@@ -69,7 +70,7 @@
                                     <label asp-for="Account.Password" for="password">Password</label>
                                     <input asp-for="Account.Password" type="password" class="form-control" id="password" name="Account.Password" placeholder="Password" required value="@Model.Account.Password">
                                 </div>
-                                <button type="submit" class="btn btn-primary">Login</button>
+                                <button type="submit" class="btn btn-primary" id="loginBtn">Login</button>
                                 @if (alertMessage != null)
                                 {
                                     <script type="text/javascript">
@@ -128,7 +129,7 @@
                 });
 
                 $.ajax({
-                    url: '/Login/AuthenticateUser',
+                    url: webApi + 'api/Login/AuthenticateUser',
                     method: "POST",
                     cache: false,
                     data: account,
@@ -175,7 +176,7 @@
                 });
 
                 $.ajax({
-                    url: '/Login/RegisterUser',
+                    url: webApi + 'api/Login/RegisterUser',
                     method: "POST",
                     cache: false,
                     data: param,

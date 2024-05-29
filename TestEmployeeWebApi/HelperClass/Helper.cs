@@ -1,7 +1,7 @@
 ﻿
 using System.Data;
 
-namespace TestEmployeeApp.HelperClass
+namespace TestEmployeeWebApi.HelperClass
 {
     public static class Helper
     {

@@ -105,7 +105,7 @@ namespace TestEmployeeApp.Pages.Account
                 //
                 //Response.Cookies.Append("LoginCookie", "cookieValue", cookieOptions);
 
-                return LocalRedirect("/Index");
+                return RedirectToPage("/Index");
             }
 
             // Something failed. Redisplay the form.

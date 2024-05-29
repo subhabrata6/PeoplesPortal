@@ -4,139 +4,162 @@
     ViewData["Title"] = "User Role";
 
     <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <title>@ViewData["Title"]</title>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-            <style>
-                .table-bordered th, .table-bordered td {
-                    border: 1px solid #dee2e6;
-                }
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>@ViewData["Title"]</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <style>
+            .table-bordered th, .table-bordered td {
+                border: 1px solid #dee2e6;
+            }
 
-                .table thead th {
-                    background-color: #80c6ff; /* Change to your desired color */
-                }
-            </style>
-        </head>
-        <body>
-            <div class="container mt-5">
-                <h2>@ViewData["Title"]</h2>
-                <div class="d-flex justify-content-end mb-3">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoleModal">
-                        Add Role
-                    </button>
-                </div>
+            .table thead th {
+                background-color: #80c6ff; /* Change to your desired color */
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container mt-5">
+            <h2>@ViewData["Title"]</h2>
+            <div class="d-flex justify-content-end mb-3">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoleModal">
+                    Add Role
+                </button>
+            </div>
 
-                <!-- Modal -->
-                <div class="modal fade" id="addRoleModal" tabindex="-1" aria-labelledby="addRoleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="addRoleModalLabel">Add New Role</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <!-- Modal -->
+            <div class="modal fade" id="addRoleModal" tabindex="-1" aria-labelledby="addRoleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addRoleModalLabel">Add New Role</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-2">
+                                <label for="roleName" class="form-label">Role Name</label>
+                                <input type="hidden" id="roleId" name="Role.Id" value="@Model.Role?.Id" />
+                                <input type="text" class="form-control" id="roleName" name="Role.Name" value="@Model.Role?.Name" />
                             </div>
-                            <div class="modal-body">
-                                <div class="mb-2">
-                                    <label for="roleName" class="form-label">Role Name</label>
-                                    <input type="hidden" id="roleId" name="Role.Id" value="@Model.Role?.Id" />
-                                    <input type="text" class="form-control" id="roleName" name="Role.Name" value="@Model.Role?.Name" />
-                                </div>
-                                <div class="mb-1">
-                                    <label for="roleName" class="form-label">Is Admin</label>
-                                    <input type="checkbox" class="form-checkbox" id="isAdmin" name="Role.IsAdmin" value="@Model.Role?.IsAdmin" />
-                                </div>
+                            <div class="mb-1">
+                                <label for="roleName" class="form-label">Is Admin</label>
+                                <input type="checkbox" class="form-checkbox" id="isAdmin" name="Role.IsAdmin" value="@Model.Role?.IsAdmin" />
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="addRoleBtn" onclick="saveRole();">OK</button>
-                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="addRoleBtn" onclick="saveRole();">OK</button>
                         </div>
                     </div>
                 </div>
-
-                <!-- Roles Table -->
-                <div class="table-responsive">
-                    <table class="table table-bordered mt-3">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="col-md-8">Role Name</th>
-                                <th scope="col" class="col-md-4">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="rolesTableBody">
-                            @foreach (var item in Model.RoleList)
-                        {
-                                <tr>
-                                    <td>@item.Name</td>
-                                    <td>
-                                        <!-- Delete Button -->
-                                        <a href="#" class="btn btn-danger btn-sm" onclick="deleteEntry('@item.Id')">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                        <!-- Edit Button -->
-                                        <a href="#" class="btn btn-primary btn-sm" onclick="editEntry('@item.Id')">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                        }
-                        </tbody>
-                    </table>
-                </div>
             </div>
 
-            <script>
+            <!-- Roles Table -->
+            <div class="table-responsive">
+                <table class="table table-bordered mt-3">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="col-md-8">Role Name</th>
+                            <th scope="col" class="col-md-4">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rolesTableBody">
+                        @foreach (var item in Model.RoleList)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>
+                                    <!-- Delete Button -->
+                                    <a href="#" class="btn btn-danger btn-sm" onclick="deleteEntry('@item.Id')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                    <!-- Edit Button -->
+                                    <a href="#" class="btn btn-primary btn-sm" onclick="editEntry('@item.Id')">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-                function saveRole() {
-                    const roleName = $('#roleName').val().trim();
-                    if (roleName) {
-                        let role = JSON.stringify({ "Id": $('#roleId').val() === '' ? 0 : Number($('#roleId').val()), "Name": roleName, "IsAdmin": $('#isAdmin').is(':checked') });
+        <script>
 
-                        $.ajax({
-                            url: '/UserRole/SaveRole',
-                            method: "POST",
-                            cache: false,
-                            data: role,
-                            contentType: "application/json; charset=utf-8",
-                            success: function (response) {
-                                if (response.status === 200) {
-                                    alert(response.message);
-                                    window.location.reload();
-                                } else {
-                                    alert(response.message);
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                console.error("Error:", xhr.responseText);
-                                alert(error);
-                            }
-                        });
-
-                        $('#addRoleModal').modal('toggle');
-                    } 
-                    else {
-                        alert('Role name cannot be empty');
-                    }
-                }
-
-
-                function editEntry(id) {
-                    console.log("Editing entry with ID: " + id);
+            function saveRole() {
+                const roleName = $('#roleName').val().trim();
+                if (roleName) {
+                    let role = JSON.stringify({ "Id": $('#roleId').val() === '' ? 0 : Number($('#roleId').val()), "Name": roleName, "IsAdmin": $('#isAdmin').is(':checked') });
 
                     $.ajax({
-                        url: "/UserRole/EditRole/" + id,
+                        url: webApi + 'api/UserRole/SaveRole',
+                        method: "POST",
+                        cache: false,
+                        data: role,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (response) {
+                            if (response.status === 200) {
+                                alert(response.message);
+                                window.location.reload();
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error:", xhr.responseText);
+                            alert(error);
+                        }
+                    });
+
+                    $('#addRoleModal').modal('toggle');
+                }
+                else {
+                    alert('Role name cannot be empty');
+                }
+            }
+
+
+            function editEntry(id) {
+                console.log("Editing entry with ID: " + id);
+
+                $.ajax({
+                    url: webApi + "api/UserRole/EditRole/" + id,
+                    method: "GET",
+                    cache: false,
+                    contentType: "application/json",
+                    success: function (response) {
+                        console.log("Success:", response);
+                        if (response.status === 200) {
+                            $('#roleId').val(response.response.id);
+                            $('#roleName').val(response.response.name);
+                            $('#isAdmin').prop("checked", response.response.isAdmin);
+                            $('#addRoleModal').modal('show');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", xhr.responseText);
+                    }
+                });
+            }
+
+            function deleteEntry(id) {
+                console.log("Deleting entry with ID: " + id);
+
+                if (confirm("Are you sure you want to delete this?")) {
+                    $.ajax({
+                        url: webApi + "api/UserRole/DeleteUserRole/" + id,
                         method: "GET",
                         cache: false,
                         contentType: "application/json",
                         success: function (response) {
                             console.log("Success:", response);
                             if (response.status === 200) {
-                                $('#roleId').val(response.response.id);
-                                $('#roleName').val(response.response.name);
-                                $('#isAdmin').prop("checked",response.response.isAdmin);
-                                $('#addRoleModal').modal('show');
+                                alert(response.message);
+                                window.location.reload();
                             }
                         },
                         error: function (xhr, status, error) {
@@ -144,32 +167,10 @@
                         }
                     });
                 }
-
-                function deleteEntry(id) {
-                    console.log("Deleting entry with ID: " + id);
-
-                    if (confirm("Are you sure you want to delete this?")) {
-                        $.ajax({
-                            url: "/UserRole/DeleteUserRole/" + id,
-                            method: "GET",
-                            cache: false,
-                            contentType: "application/json",
-                            success: function (response) {
-                                console.log("Success:", response);
-                                if (response.status === 200) {
-                                    alert(response.message);
-                                    window.location.reload();
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                console.error("Error:", xhr.responseText);
-                            }
-                        });
-                    }
-                }
-            </script>
-        </body>
-        </html>
+            }
+        </script>
+    </body>
+    </html>
 
 
 

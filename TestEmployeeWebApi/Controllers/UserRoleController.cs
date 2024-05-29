@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TestEmployeeApp.DBAccess;
-using TestEmployeeApp.Model;
+using TestEmployeeWebApi.DBAccess;
+using TestEmployeeWebApi.Model;
 
-namespace TestEmployeeApp.Controller
+namespace TestEmployeeWebApi.Controllers
 {
-    [Route("[controller]")]
-    public class UserRoleController : ControllerBase
+    [ApiController]
+    [Route("api/[controller]")]
+    public class UserRoleController : Controller
     {
         private readonly IConfiguration _configuration;
 
