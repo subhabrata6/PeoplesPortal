@@ -12,8 +12,9 @@
         <title>@ViewData["Title"]</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="~/css/login.css">
         <script src="~/js/site.js" asp-append-version="true"></script>
-        <style>
+        @*<style>
             .tab-pane {
                 padding-top: 20px;
             }
@@ -44,10 +45,10 @@
             .form-container {
                 margin-top: 50px; /* Add margin for spacing from top */
             }
-        </style>
+        </style> *@
     </head>
     <body>
-        <div class="container-fluid form-container">
+        @* <div class="container-fluid form-container">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">Login</a>
@@ -107,6 +108,55 @@
                     </div>
                 </div>
             </div>
+        </div> *@
+
+        <div class="container">
+
+            <form class="form-signin rounded-sm shadow">
+                <div class="mx-auto" style="width:200px"><img class="mb-4 logo" src="~/Resources/codeclouds_colour.svg" alt=""></div>
+                <!-- Nav tabs -->
+                <ul class="nav nav-pills mb-4">
+                    <li class="nav-item pill-1">
+                        <a class="nav-link active rounded-0" data-toggle="tab" href="#login">Login</a>
+                    </li>
+                    <li class="nav-item pill-2">
+                        <a class="nav-link  rounded-0" data-toggle="tab" href="#register">Register</a>
+                    </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <!-- Tab1 -->
+                    <div id="login" class="container tab-pane active">
+
+                        <label asp-for="Account.Email" for="email" class="sr-only">Email address</label>
+                        <input asp-for="Account.Email" type="email" id="email" name="Account.Email" class="form-control mb-4" placeholder="Email address" required value="@Model.Account.Email">
+
+                        <label asp-for="Account.Password" for="password" class="sr-only">Password</label>
+                        <input asp-for="Account.Password" type="password" id="password" name="Account.Password" class="form-control mb-4" placeholder="Password" required value="@Model.Account.Password">
+
+                        <button class="btn btn-lg btn-dark btn-block" type="submit">Login</button>
+                    </div>
+
+                    <!-- Tab2 -->
+                    <div id="register" class="container tab-pane fade">
+                        <label for="registerUserName" class="sr-only">User Name</label>
+                        <input type="text" class="form-control mb-4" id="registerUserName" name="registerUserName" placeholder="Enter user name" required>
+
+                        <label for="registerEmail" class="sr-only">Email address</label>
+                        <input type="email" class="form-control mb-4" id="registerEmail" name="registerEmail" placeholder="Enter email" required>
+
+                        <label for="registerPassword" class="sr-only">Password</label>
+                        <input type="password" class="form-control mb-4" id="registerPassword" name="registerPassword" placeholder="Password" required>
+
+                        <label for="confirmPassword" class="sr-only">Confirm Password</label>
+                        <input type="password" class="form-control mb-4" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+
+                        <button class="btn btn-lg btn-dark btn-block" type="submit">Register</button>
+                    </div>
+                </div>
+
+            </form>
         </div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
