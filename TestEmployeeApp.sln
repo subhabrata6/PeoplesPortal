@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestEmployeeApp", "TestEmpl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeoplesPortalNUnitTest", "PeoplesPortalNUnitTest\PeoplesPortalNUnitTest.csproj", "{2EEFFF64-DD94-40D4-84DC-E34907AA872B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEmployeeWebApi", "TestEmployeeWebApi\TestEmployeeWebApi.csproj", "{5A48ECE9-2FBC-4E0A-95CE-CF0D52E8F701}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestEmployeeWebApi", "TestEmployeeWebApi\TestEmployeeWebApi.csproj", "{5A48ECE9-2FBC-4E0A-95CE-CF0D52E8F701}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

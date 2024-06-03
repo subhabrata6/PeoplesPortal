@@ -1,0 +1,72 @@
+﻿@page
+@model TestEmployeeApp.Pages.OTTPlatform.OTTUsersModel
+@{
+    ViewData["Title"] = "OTT Subscription Management";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .expired {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">OTT Subscription Management</h1>
+        <form method="post">
+            <div class="form-group">
+                <label for="platform">Select OTT Platform:</label>
+                <select id="platform" asp-for="SelectedPlatform" class="form-control">
+                    <option value="">Select Platform</option>
+                    @foreach (var platform in Model.OTTPlatforms)
+                    {
+                        <option value="@platform">@platform</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="plan">Select Plan:</label>
+                <select id="plan" asp-for="SelectedPlan" class="form-control">
+                    <option value="">Select Plan</option>
+                    @foreach (var plan in Model.Plans)
+                    {
+                        <option value="@plan">@plan</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="purchaseDate">Purchase Date:</label>
+                <input type="date" id="purchaseDate" asp-for="PurchaseDate" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div class="mt-5">
+            <h2>Subscription History</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>OTT Platform</th>
+                        <th>Subscription Start Date</th>
+                        <th>Subscription End Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var subscription in Model.Subscriptions)
+                    {
+                        <tr @(subscription.IsExpired ? "class=\"expired\"" : "")>
+                            <td>@subscription.Platform</td>
+                            <td>@subscription.StartDate.ToShortDateString()</td>
+                            <td>@subscription.EndDate.ToShortDateString()</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

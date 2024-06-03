@@ -12,6 +12,8 @@
         <title>@ViewData["Title"]</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
         <style>
             .tab-pane {
@@ -108,47 +110,8 @@
                 </div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script>
-            function Login() {
-                if ($('#email').val().trim() == '') {
-                    alert("Please provide email ID!");
-                    return;
-                }
-                if ($('#password').val().trim() == '') {
-                    alert("Please provide password!");
-                    return;
-                }
 
-                let account = JSON.stringify({
-                    "UserName": '',
-                    "Email": $('#email').val(),
-                    "Password": $('#password').val(),
-                    "ConfirmPassword": ''
-                });
-
-                $.ajax({
-                    url: webApi + 'api/Login/AuthenticateUser',
-                    method: "POST",
-                    cache: false,
-                    data: account,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (response) {
-                        if (response.status == 200) {
-                            alert(response.message);
-
-                        }
-                        else {
-                            alert(response.message);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        // Handle error here
-                        console.error("Error:", xhr.responseText);
-                    }
-                });
-            }
 
             function Register() {
                 if ($('#registerUserName').val().trim() == '') {
@@ -184,6 +147,7 @@
                     success: function (response) {
                         if (response.status == 200) {
                             alert(response.message);
+                            window.location.reload();
                         }
                         else {
                             alert(response.message);
@@ -201,10 +165,5 @@
         </script>
     </body>
     </html>
-
-
-
-
-
 
 }

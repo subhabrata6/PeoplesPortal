@@ -684,5 +684,69 @@ namespace TestEmployeeApp.DBAccess
 
             return response;
         }
+
+        public ResponseMessage GetUsersViewList()
+        {
+            ResponseMessage response = new ResponseMessage();
+
+            string connStr = Helper.GetConnectionString(_configuration);
+
+            SqlConnection conn = null;
+            SqlCommand cmd = null;
+            SqlDataAdapter da = null;
+            DataTable dt = new DataTable();
+            List<UserView> userList = new List<UserView>();
+
+            try
+            {
+                conn = new SqlConnection(connStr);
+                conn.Open();
+                cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "GET_USER_VIEW_LIST";
+
+                da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        UserView user = new UserView();
+                        user.Password = Helper.GetDBStringValue(row["Password"]);
+                        user.Username = Helper.GetDBStringValue(row["UserName"]);
+                        user.Email = Helper.GetDBStringValue(row["Email"]);
+
+                        userList.Add(user);
+                    }
+
+                    response.Response = userList;
+                    response.Status = HttpStatusCode.OK;
+                    response.Message = "Ok";
+                }
+                else
+                {
+                    response.Response = userList;
+                    response.Status = HttpStatusCode.NotFound;
+                    response.Message = "No users found";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = HttpStatusCode.InternalServerError;
+                response.Message = ex.Message;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                conn.Dispose();
+            }
+
+            return response;
+        }
     }
 }
