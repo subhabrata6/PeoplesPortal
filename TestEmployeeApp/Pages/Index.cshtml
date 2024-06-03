@@ -10,63 +10,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-            text-align: center;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        h1 {
-            font-size: 36px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        p {
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 40px;
-        }
-
-        .image-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            margin-top: 40px;
-        }
-
-            .image-grid img {
-                max-width: 100%;
-                height: auto;
-                border-radius: 8px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                transition: transform 0.3s ease;
-            }
-
-                .image-grid img:hover {
-                    transform: scale(1.05);
-                }
-
-    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to Our Community</h1>
-        <p>Discover the faces behind our vibrant community.</p>
-        <div class="image-grid">
-            <img src="/Resources/Logo.png" alt="Person 1">
+    <!-- Page content -->
+    <div id="page-content-wrapper">
+        <div class="page-content">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="header-icon">
+                    <i class="fa fa-tachometer"></i>
+                </div>
+                <div class="header-title">
+                    <h1> Welcome To Our Community</h1>
+                    <small> Discover the faces behind our vibrant community</small>
+                    <ul class="link hidden-xs">
+                        <li><a href="index.html"><i class="fa fa-home"></i>Home</a></li>
+                        <li><a href="index.html">Dashboard</a></li>
+                    </ul>
+                </div>
+            </section>
+            <!-- page section -->
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Calender -->
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fa fa-calendar-check-o fa-lg"></i>
+                                <h2>Calender</h2>
+                            </div>
+                            <div class="card-content">
+                                <!-- monthly calender -->
+                                <div class="monthly_calender">
+                                    <div class="monthly" id="m_calendar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ./Calender -->
+                </div>
+                <!-- ./row -->
+            </div>
+            <!-- ./cotainer -->
         </div>
+        <!-- ./page-content -->
     </div>
+    <!-- ./page-content-wrapper -->
 </body>
 </html>
 

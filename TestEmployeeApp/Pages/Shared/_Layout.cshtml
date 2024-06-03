@@ -5,100 +5,268 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - People's Portal App</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/Custom.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/TestEmployeeApp.styles.css" asp-append-version="true" />
+    <!-- Start Global Mandatory Style
+             =====================================================================-->
+    <!-- jquery-ui css -->
+    <link href="~/assets/plugins/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+    <!-- materialize css -->
+    <link href="~/assets/plugins/materialize/css/materialize.min.css" rel="stylesheet">
+    <!-- Bootstrap css-->
+    <link href="~/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Animation Css -->
+    <link href="~/assets/plugins/animate/animate.css" rel="stylesheet" />
+    <!-- Material Icons CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="~/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!-- Monthly css -->
+    <link href="~/assets/plugins/monthly/monthly.css" rel="stylesheet" type="text/css" />
+    <!-- simplebar scroll css -->
+    <link href="~/assets/plugins/simplebar/dist/simplebar.css" rel="stylesheet" type="text/css" />
+    <!-- mCustomScrollbar css -->
+    <link href="~/assets/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
+    <!-- custom CSS -->
+    <link href="~/assets/dist/css/stylematerial.css" rel="stylesheet">
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">People's Portal</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-center">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark roleDropdown" href="#" id="rolesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Roles
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="rolesDropdown">
-                                    <li><a class="dropdown-item userRole" asp-area="" asp-page="/RoleCreation/UserRoles">User Roles</a></li>
-                                    <li><a class="dropdown-item assignRole" asp-area="" asp-page="/RoleCreation/AssignRoles">Assign Roles</a></li>
-                                </ul>
+    <div id="wrapper">
+        <!--navbar top-->
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <!-- Logo -->
+            <a class="navbar-brand pull-left" href="index.html">
+                <img src="~/assets/dist/img/logo3.png" alt="logo" width="205" height="60">
+            </a>
+            <a id="menu-toggle">
+                <i class="material-icons">apps</i>
+            </a>
+            <div class="navbar-custom-menu hidden-xs">
+                <ul class="nav navbar-nav navbar-left hidden-xs">
+                    <li class="top-search "><a href="#search"><i class="material-icons">search</i></a></li>
+                    <li>
+                        <div id="search" class="top-search">
+                            <button type="button" class="close">x</button>
+                            <form>
+                                <input type="search" value="" placeholder="type For searching..." />
+                                <button type="submit" class="btn">Search</button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="navbar navbar-right">
+                    <!--Notification-->
+                    <li class="dropdown">
+                        <!--user profile-->
+                    <li class="dropdown">
+                        <a class='dropdown-button user-pro' href='#' data-activates='dropdown-user'>
+                            <img src="~/Resources/codeclouds_colour.svg" class="img-circle" height="45" width="50" alt="User Image">
+                        </a>
+                        <ul id='dropdown-user' class='dropdown-content'>
+                            <li>
+                                <a href="#!"><i class="material-icons">perm_identity</i> View profile</a>
                             </li>
-                        }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark people" asp-area="" asp-page="/Peoples/People">People</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark country" asp-area="" asp-page="/Countries/Country">Country</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark state" asp-area="" asp-page="/States/State">State</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark leaveDropDown" href="#" id="leavesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Leave
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="leavesDropdown">
-                                <li><a class="dropdown-item leaveHistory" asp-area="" asp-page="/Leave/EmployeeLeaves">Leave History</a></li>
-                                <li><a class="dropdown-item applyLeave" asp-area="" asp-page="/Leave/ApplyLeave">Apply Leave</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown">
-
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-user-circle"></i> <!-- Font Awesome icon for user -->
-                                 <!-- Replace [Current User] with the actual username -->
-                                @if (User.Identity.IsAuthenticated)
-                                {
-                                    <span class="ml-2">Welcome, @User.Identity.Name </span>
-                                }
-                                else
-                                {
-                                    <li><a href="/Account/Login">Login</a></li>
-                                }
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-area="" asp-page="/Account/Login">Logout</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                            <li>
+                                <a href="#!"><i class="material-icons">settings</i> Settings</a>
+                            </li>
+                            <li>
+                                <a href="#!"><i class="material-icons">lock</i> Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- /.user profile -->
+                </ul>
             </div>
         </nav>
-    </header>
-
-    <div class="container-fluid">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - People's Portal - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper" class="waves-effect" data-simplebar>
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="active-link"><a href="index.html"><i class="material-icons">dashboard</i>Dashboard</a></li>
+                        <li>
+                            <a><i class="material-icons">insert_emoticon</i>Roles<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="#">User Roles</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#"><i class="material-icons">people</i>People</a></li>
+                        <li><a href="#"><i class="material-icons">flag</i>Country</a></li>
+                        <li><a href="#"><i class="material-icons">location_city</i>State</a></li>
+                        <li>
+                            <a><i class="material-icons">person</i>Leave<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="#">Employee Leave</a></li>
+                            </ul>
+                        </li>
+                        <li class="side-last"></li>
+                    </ul>
+                    <!-- ./sidebar-nav -->
+                </div>
+                <!-- ./sidebar -->
+            </div>
+            <!-- ./sidebar-nav -->
         </div>
-    </footer>
+        <!-- ./sidebar-wrapper -->
+        <!-- Page content -->
+        <div id="page-content-wrapper">
+            <div class="page-content">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="header-icon">
+                        <i class="fa fa-tachometer"></i>
+                    </div>
+                    <div class="header-title">
+                        <h1> Welcome To Our Community</h1>
+                        <small> Discover the faces behind our vibrant community</small>
+                        <ul class="link hidden-xs">
+                            <li><a href="index.html"><i class="fa fa-home"></i>Home</a></li>
+                            <li><a href="index.html">Dashboard</a></li>
+                        </ul>
+                    </div>
+                </section>
+                <!-- page section -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- Calender -->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <i class="fa fa-calendar-check-o fa-lg"></i>
+                                    <h2>Calender</h2>
+                                </div>
+                                <div class="card-content">
+                                    <!-- monthly calender -->
+                                    <div class="monthly_calender">
+                                        <div class="monthly" id="m_calendar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./Calender -->
+                    </div>
+                    <!-- ./row -->
+                </div>
+                <!-- ./cotainer -->
+            </div>
+            <!-- ./page-content -->
+        </div>
+        <!-- ./page-content-wrapper -->
+    </div>
+    <!-- ./page-wrapper -->
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="preloader-position">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-teal">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Preloader -->
+    <!-- Start Core Plugins
+             =====================================================================-->
+    <!-- jQuery -->
+    <script src="~/assets/plugins/jQuery/jquery-3.2.1.min.js" type="text/javascript"></script>
+    <!-- jquery-ui -->
+    <script src="~/assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+    <!-- Bootstrap -->
+    <script src="~/assets/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- materialize  -->
+    <script src="~/assets/plugins/materialize/js/materialize.min.js" type="text/javascript"></script>
+    <!-- metismenu-master -->
+    <script src="~/assets/plugins/metismenu-master/dist/metisMenu.min.js" type="text/javascript"></script>
+    <!-- SlimScroll -->
+    <script src="~/assets/plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <!-- m-custom-scrollbar -->
+    <script src="~/assets/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
+    <!-- scroll -->
+    <script src="~/assets/plugins/simplebar/dist/simplebar.js" type="text/javascript"></script>
+    <!-- custom js -->
+    <script src="~/assets/dist/js/custom.js" type="text/javascript"></script>
+    <!-- End Core Plugins
+             =====================================================================-->
+    <!-- Start Page Lavel Plugins
+             =====================================================================-->
+    <!-- Sparkline js -->
+    <script src="~/assets/plugins/sparkline/sparkline.min.js" type="text/javascript"></script>
+    <!-- Counter js -->
+    <script src="~/assets/plugins/counterup/jquery.counterup.min.js" type="text/javascript"></script>
+    <!-- Monthly js -->
+    <script src="~/assets/plugins/monthly/monthly.js" type="text/javascript"></script>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    @* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- End Page Lavel Plugins
+             =====================================================================-->
+    <!-- Start Theme label Script
+             =====================================================================-->
+    <!-- main js-->
+    <script src="~/assets/dist/js/main.js" type="text/javascript"></script>
+    <!-- End Theme label Script
+             =====================================================================-->
+    <script>
+        $(document).ready(function () {
+            "use strict";
 
-    @await RenderSectionAsync("Scripts", required: false)
+            //monthly calender
+            $('#m_calendar').monthly({
+                mode: 'event',
+                //jsonUrl: 'events.json',
+                //dataType: 'json'
+                xmlUrl: 'events.xml'
+            });
+
+            //panel refresh
+            $.fn.refreshMe = function (opts) {
+                var $this = this,
+                    defaults = {
+                        ms: 1500,
+                        started: function () { },
+                        completed: function () { }
+                    },
+                    settings = $.extend(defaults, opts);
+
+                var panelToRefresh = $this.parents('.panel').find('.refresh-container');
+                var dataToRefresh = $this.parents('.panel').find('.refresh-data');
+                var ms = settings.ms;
+                var started = settings.started; //function before timeout
+                var completed = settings.completed; //function after timeout
+
+                $this.click(function () {
+                    $this.addClass("fa-spin");
+                    panelToRefresh.show();
+                    started(dataToRefresh);
+                    setTimeout(function () {
+                        completed(dataToRefresh);
+                        panelToRefresh.fadeOut(800);
+                        $this.removeClass("fa-spin");
+                    }, ms);
+                    return false;
+                });
+            };
+
+            $(document).ready(function () {
+                $('.refresh, .refresh2').refreshMe({
+                    started: function (ele) {
+                        ele.html("Getting new data..");
+                    },
+                    completed: function (ele) {
+                        ele.html("This is the new data after refresh..");
+                    }
+                });
+            });
+
+
+
+        });
+    </script>
 </body>
+
 </html>
