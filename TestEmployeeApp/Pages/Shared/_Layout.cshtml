@@ -86,16 +86,18 @@
                         <li>
                             <a><i class="material-icons">insert_emoticon</i>Roles<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li><a href="#">User Roles</a></li>
+                                <li><a class="dropdown-item userRole" asp-area="" asp-page="/RoleCreation/UserRoles">User Roles</a></li>
+                                <li><a class="dropdown-item assignRole" asp-area="" asp-page="/RoleCreation/AssignRoles">Assign Roles</a></li>
                             </ul>
                         </li>
-                        <li><a href="#"><i class="material-icons">people</i>People</a></li>
-                        <li><a href="#"><i class="material-icons">flag</i>Country</a></li>
-                        <li><a href="#"><i class="material-icons">location_city</i>State</a></li>
+                        <li><a class="nav-link text-dark people" asp-area="" asp-page="/Peoples/People">People</a></li>
+                        <li><a class="nav-link text-dark country" asp-area="" asp-page="/Countries/Country">Country</a></li>
+                        <li><a class="nav-link text-dark state" asp-area="" asp-page="/States/State">State</a></li>
                         <li>
                             <a><i class="material-icons">person</i>Leave<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li><a href="#">Employee Leave</a></li>
+                                <li><a class="dropdown-item leaveHistory" asp-area="" asp-page="/Leave/EmployeeLeaves">Leave History</a></li>
+                                <li><a class="dropdown-item applyLeave" asp-area="" asp-page="/Leave/ApplyLeave">Apply Leave</a></li>
                             </ul>
                         </li>
                         <li class="side-last"></li>
@@ -107,8 +109,11 @@
             <!-- ./sidebar-nav -->
         </div>
         <!-- ./sidebar-wrapper -->
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
         <!-- Page content -->
-        <div id="page-content-wrapper">
+        @* <div id="page-content-wrapper">
             <div class="page-content">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
@@ -123,9 +128,10 @@
                             <li><a href="index.html">Dashboard</a></li>
                         </ul>
                     </div>
+                    
                 </section>
                 <!-- page section -->
-                <div class="container-fluid">
+                @* <div class="container-fluid">
                     <div class="row">
                         <!-- Calender -->
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -141,6 +147,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <main role="main" class="pb-3">
+                                @RenderBody()
+                            </main>
                         </div>
                         <!-- ./Calender -->
                     </div>
@@ -149,7 +158,7 @@
                 <!-- ./cotainer -->
             </div>
             <!-- ./page-content -->
-        </div>
+        @* </div> *@
         <!-- ./page-content-wrapper -->
     </div>
     <!-- ./page-wrapper -->
