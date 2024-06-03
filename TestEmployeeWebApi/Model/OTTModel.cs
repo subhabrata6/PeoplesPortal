@@ -1,4 +1,4 @@
-﻿namespace TestEmployeeApp.Model
+﻿namespace TestEmployeeWebApi.Model
 {
     public class OTTModel
     {
@@ -32,8 +32,8 @@
     {
         public int PlanId { get; set; }
         public string PlanName { get; set; }
-        public string PlatformName { get; set; }
-        public int PlatformId { get; set; }
+        public string? PlatformName { get; set; }
+        public string PlatformId { get; set; }
         public decimal Price { get; set; }
         public int DurationType { get; set; }
         public int Duration { get; set; }

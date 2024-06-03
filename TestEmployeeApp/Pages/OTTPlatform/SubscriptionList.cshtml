@@ -11,6 +11,7 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
 <body>
     <div class="container-fluid">
@@ -23,7 +24,7 @@
                     <option value="">Select Platform</option>
                     @foreach (var item in Model.OTTPlatformNames)
                     {
-                        <option value="@item.WebSiteUrl">@item.PlatformName</option>
+                        <option value="@item.PlatformId">@item.PlatformName</option>
                     }
                 </select>
                 <button type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#addSubscriptionModal">
@@ -38,6 +39,7 @@
                     <tr>
                         <th>Subscription Plan Name</th>
                         <th>Price</th>
+                        <th>Duration Type</th>
                         <th>Duration</th>
                     </tr>
                 </thead>
@@ -47,6 +49,7 @@
                         <tr>
                             <td>@plan.PlanName</td>
                             <td>@plan.Price</td>
+                            <td>@plan.DurationType == 1 ? "Year" : "Month"</td>
                             <td>@plan.Duration</td>
                         </tr>
                     }
@@ -73,19 +76,24 @@
                                 <option value="">Select Platform</option>
                                 @foreach (var item in Model.OTTPlatformNames)
                                 {
-                                    <option value="@item.WebSiteUrl">@item.PlatformName</option>
+                                    <option value="@item.PlatformId">@item.PlatformName</option>
                                 }
                             </select>
                         </div>
                         <div class="form-group">
+                            <input type="hidden" id="hidPlanId" value="0" />
+                            <label for="ottPLanName">Plan Name:</label>
+                            <input type="text" id="ottPLanName" class="form-control" name="ottPLanName" value="" placeholder="Enter Plan Name" />
+                        </div>
+                        <div class="form-group">
                             <label for="planPrice">Price:</label>
-                            <input type="number" id="planPrice" name="planPrice" class="form-control" />
+                            <input type="number" id="planPrice" name="planPrice" class="form-control" value="0" placeholder="Rs.0" />
                         </div>
                         <div class="form-group">
                             <label for="durationType">Duration Type:</label>
                             <select id="durationType" name="durationType" class="form-control">
-                                <option value="Month">Month</option>
-                                <option value="Year">Year</option>
+                                <option value="0">Month</option>
+                                <option value="1">Year</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -96,6 +104,10 @@
                                     <option value="@i">@i</option>
                                 }
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ottPLanDesc">Description:</label>
+                            <input type="text" id="ottPLanDesc" class="form-control" name="ottPLanDesc" value="" placeholder="Enter Plan Description" />
                         </div>
                     </form>
                 </div>
@@ -114,9 +126,41 @@
         <script>
             $(document).ready(function () {
                 $('#saveSubscriptionBtn').click(function () {
-                    // Perform your save logic here
-                    // Collect form data and send to server if needed
-                    $('#addSubscriptionModal').modal('hide');
+
+                    let param = JSON.stringify({
+                        "PlanId": $('#hidPlanId').val(),
+                        "PlanName": $('#ottPLanName').val(),
+                        "PlatformId": $('#platformSelect option:selected').val(),
+                        "Price": $('#planPrice').val(),
+                        "DurationType": $('#durationType').val(),
+                        "Duration": $('#durationNumber').val(),
+                        "Description": $('#ottPLanDesc').val()
+                    });
+
+                    $.ajax({
+                        url: webApi + 'api/OTT/SaveSubscriptionPlan',
+                        method: "POST",
+                        cache: false,
+                        data: param,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (response) {
+                            if (response.status == 200) {
+                                alert(response.message);
+                                $('#addSubscriptionModal').modal('toggle');
+                                window.location.reload();
+                            }
+                            else {
+                                alert(response.message);
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+                            // Handle error here
+                            console.error("Error:", xhr.responseText);
+                            console.log(xhr, status, error);
+                            alert(error);
+                        }
+                    });
                 });
             });
         </script>
