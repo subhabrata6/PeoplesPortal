@@ -8,118 +8,91 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>List Of States</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                padding-top: 20px;
-            }
-
-            .form-header {
-                border: 1px solid #ccc;
-                padding: 20px;
-                border-radius: 8px;
-            }
-
-            .form-row {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 15px;
-            }
-
-            .form-group {
-                flex-grow: 1;
-                margin-right: 10px;
-                margin-bottom: 10px;
-            }
-
-            .table {
-                border: 1px solid #ccc;
-                border-collapse: collapse;
-                width: 100%;
-            }
-
-                .table th, .table td {
-                    border: 1px solid #ccc;
-                    padding: 8px;
-                }
-
-                .table th {
-                    background-color: #f2f2f2;
-                }
-        </style>
+       
     </head>
     <body>
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-md-12">
-                    <h1 class="mb-4 text-center">List Of States</h1>
-
-                    <div class="form-header">
-                        <form method="post">
-                            <div class="form-row align-items-center">
-                                <div class="col">
-                                    <input type="hidden" id="id" name="NewState.id" value="@Model.NewState.id" />
-                                    <label for="state" class="form-label required-label">Name</label>
-                                    <input type="text" id="state" name="NewState.state" class="form-control" placeholder="Enter State Name" value="@Model.NewState.state" />
-                                </div>
-                                <div class="col">
-                                    <label for="countryId" class="form-label required-label">Country</label>
-                                    <select asp-for="SelectedCountry" class="form-control" name="NewState.countryId" id="countryId">
-                                        <option value="0">Select Country</option>
-                                        @foreach (Country item in Model.CountryList)
-                                        {
-                                            <option value="@item.id">@item.countryName</option>
-                                        }
-                                    </select>
-                                </div>
-                                <div class="col-auto" style="margin-top: 30px;">
-                                    <div class="clearfix"></div>
-                                    <button type="submit" class="btn btn-primary">Add State</button>
+        <!-- Page content -->
+        <div id="page-content-wrapper">
+            <div class="page-content">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="header-icon">
+                        <i class="fa fa-building-o"></i>
+                    </div>
+                    <div class="header-title">
+                        <h1> List Of States</h1>
+                        <small></small>
+                        <ul class="link hidden-xs">
+                            <li><a asp-area="" asp-page="/Index"><i class="fa fa-home"></i>Home</a></li>
+                            <li><a asp-area="" asp-page="/States/State">State</a></li>
+                        </ul>
+                    </div>
+                </section>
+                <!-- page section -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="row">
+                                        <form class="col s12 m-t-20" method="post">
+                                            <div class="input-field form-input col s5">
+                                                <i class="material-icons prefix">account_circle</i>
+                                                <input id="icon_prefix" type="text" class="validate">
+                                                <label for="icon_prefix">State Name</label>
+                                            </div>
+                                            <div class="input-field form-input form-input-select col s5">
+                                                <label>Country</label>
+                                                <select class="icons">
+                                                    <option value="" disabled selected>Select Country</option>
+                                                    <option value="1">Option 1</option>
+                                                    <option value="2">Option 2</option>
+                                                    <option value="3">Option 3</option>
+                                                </select>
+                                            </div>
+                                            <div class="input-field form-input col s2">
+                                                <a type="submit" class="waves-effect waves-light btn blue">Add State</a>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </form>
-
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="col-md-3">State Name</th>
+                                                    <th scope="col" class="col-md-3">Country Name</th>
+                                                    <th scope="col" class="col-md-4">Created On</th>
+                                                    <th scope="col" class="col-md-2">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Perth</td>
+                                                    <td>Australia</td>
+                                                    <td>2024-05-17 01:56:46 PM</td>
+                                                    <td>
+                                                        <button class="btn btn-sm" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                                        <button id="modal2" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <table class="table">
-                        <thead>
-                            <tr class="tableRowColor">
-                                <th scope="col">State Name</th>
-                                <th scope="col">Country Name</th>
-                                <th scope="col">Created On</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (State item in Model.StateList)
-                            {
-                                <tr>
-                                    <td>@item.state</td>
-                                    <td>@item.countryName</td>
-                                    <td>@item.createdOn</td>
-                                    <td>
-                                        <!-- Delete Button -->
-                                        <a href="#" class="btn btn-danger" onclick="deleteEntry('@item.id')">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                        <!-- Edit Button -->
-                                        <a href="#" class="btn btn-primary" onclick="editEntry('@item.id')">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                    <!-- ./row -->
                 </div>
+                <!-- ./cotainer -->
             </div>
+            <!-- ./page-content -->
         </div>
+        <!-- ./page-content-wrapper -->
 
 
         <script>
@@ -171,6 +144,32 @@
                     });
                 }
             }
+
+            function main() {
+                var $body = $('body');
+                $('#modal2').click(function () {
+                    ssi_modal.confirm({
+                        content: 'Are you sure you want to exit?',
+                        okBtn: {
+                            className: 'btn btn-primary'
+                        },
+                        cancelBtn: {
+                            className: 'btn btn-danger'
+                        }
+                    }, function (result) {
+                        if (result)
+                            ssi_modal.notify('success', {
+                                content: 'Result: ' + result
+                            });
+                        else
+                            ssi_modal.notify('error', {
+                                content: 'Result: ' + result
+                            });
+                    });
+                });
+            }
+
+            main();
         </script>
     </body>
 

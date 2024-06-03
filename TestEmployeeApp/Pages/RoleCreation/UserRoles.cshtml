@@ -34,6 +34,7 @@
                     </div>
                     <div class="header-title">
                         <h1> User Role</h1>
+                        <small></small>
                         <ul class="link hidden-xs">
                             <li><a asp-area="" asp-page="/Index"><i class="fa fa-home"></i>Home</a></li>
                             <li><a asp-area="" asp-page="/RoleCreation/UserRoles">User Role</a></li>
@@ -78,6 +79,43 @@
             <!-- ./page-content -->
         </div>
         <!-- ./page-content-wrapper -->
+        <!-- fadeIn -->
+        <div class="modal animated fadeIn" id="fadeIn" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><b>Add A New Role</b></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col s12 m-t-20">
+                            <div class="input-field form-input col s12">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input id="icon_prefix" type="tel" class="validate">
+                                <label for="icon_prefix">Role Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 m-b-20">
+                            <div class="input-group">
+                                <input type="checkbox" id="test2" />
+                                <label for="test2">Is Admin</label>
+                            </div>
+                        </div>
+                        <br><br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" type="submit" class="waves-effect waves-light btn green">Assign Role</button>
+
+                        <button type="button" class="waves-effect waves-light btn blue-grey lighten-2 modal-close" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
 
         <script>
 

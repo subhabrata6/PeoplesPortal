@@ -11,84 +11,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Leave</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
 <body>
-    <div class="container-fluid">
-        <h2>Employee Leave</h2>
-
-        <div>
-            <form id="searchForm">
-                <div class="form-row align-items-end">
-                    <div class="form-group col-md-3">
-                        <label for="employeeName">Employee Name:</label>
-                        <input type="text" id="employeeName" name="employeeName" class="form-control autocomplete" />
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="leaveType">Leave Type:</label>
-                        <select id="leaveType" name="leaveType" class="form-control">
-                            <option value="0">Select Leave Type</option>
-                            <option value="1">Full Day</option>
-                            <option value="2">Half Day</option>
-                            <option value="3">Early Leave</option>
-                            <option value="4">Paternity Leave</option>
-                            <option value="5">Maternity Leave</option>
-                            <option value="6">Marriage Leave</option>
-                            <option value="7">Comp Off</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <button type="button" id="searchButton" class="btn btn-primary">Search</button>
+    <!-- Page content -->
+    <div id="page-content-wrapper">
+        <div class="page-content">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="header-icon">
+                    <i class="fa fa-building-o"></i>
+                </div>
+                <div class="header-title">
+                    <h1> Employee Leave</h1>
+                    <small></small>
+                    <ul class="link hidden-xs">
+                        <li><a asp-area="" asp-page="/Index"><i class="fa fa-home"></i>Home</a></li>
+                        <li><a asp-area="" asp-page="/Leave/EmployeeLeaves">Employee Leave</a></li>
+                    </ul>
+                </div>
+            </section>
+            <!-- page section -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="row">
+                                    <form class="col s12 m-t-20" method="post">
+                                        <div class="input-field form-input col s5">
+                                            <i class="material-icons prefix">account_circle</i>
+                                            <input id="icon_prefix" type="text" class="validate">
+                                            <label for="icon_prefix">Employee Name</label>
+                                        </div>
+                                        <div class="input-field form-input form-input-select col s5">
+                                            <label>Leave Type</label>
+                                            <select class="icons">
+                                                <option value="" disabled selected>Select Leave Type</option>
+                                                <option value="1">Option 1</option>
+                                                <option value="2">Option 2</option>
+                                                <option value="3">Option 3</option>
+                                            </select>
+                                        </div>
+                                        <div class="input-field form-input col s2">
+                                            <a type="submit" class="waves-effect waves-light btn blue">Search</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Leave From</th>
+                                                <th scope="col">Leave To</th>
+                                                <th scope="col">Leave Type</th>
+                                                <th scope="col">Applicant</th>
+                                                <th scope="col">Reason</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>28/05/2024</td>
+                                                <td>01/06/2024</td>
+                                                <td>Paternity Leave</td>
+                                                <td>Admin</td>
+                                                <td>Leave</td>
+                                                <td>Approval Pending</td>
+                                                <td>
+                                                    <button class="btn btn-sm" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                                    <button id="modal2" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </form>
+                <!-- ./row -->
+            </div>
+            <!-- ./cotainer -->
         </div>
-
-        <div>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Leave From</th>
-                        <th>Leave To</th>
-                        <th>Leave Type</th>
-                        <th>Applicant</th>
-                        <th>Reason</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (LeaveModule item in Model.LeaveList)
-                    {
-                        <tr>
-                            <td>@item.FromDate</td>
-                            <td>@item.ToDate</td>
-                            <td>@item.LeaveTypeName</td>
-                            <td>@item.CreatedBy</td>
-                            <td>@item.Reason</td>
-                            <td>@item.Status</td>
-                            <td>
-                                <!-- Delete Button -->
-                                <a href="javascript:void(0)" class="btn btn-danger" onclick="deleteEntry('@item.Id')">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                                <!-- Edit Button -->
-                                <a href="javascript:void(0)" class="btn btn-primary" onclick="editEntry('@item.Id')">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+        <!-- ./page-content -->
     </div>
+    <!-- ./page-content-wrapper -->
 
-    @section Scripts {
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    }
+
+
+   <script>
+
+        function main() {
+            var $body = $('body');
+            $('#modal2').click(function () {
+                ssi_modal.confirm({
+                    content: 'Are you sure you want to exit?',
+                    okBtn: {
+                        className: 'btn btn-primary'
+                    },
+                    cancelBtn: {
+                        className: 'btn btn-danger'
+                    }
+                }, function (result) {
+                    if (result)
+                        ssi_modal.notify('success', {
+                            content: 'Result: ' + result
+                        });
+                    else
+                        ssi_modal.notify('error', {
+                            content: 'Result: ' + result
+                        });
+                });
+            });
+        }
+
+        main();
+   </script>
 </body>
 </html>

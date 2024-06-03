@@ -8,124 +8,80 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>List Of Countries</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                padding-top: 20px;
-            }
 
-            .form-header {
-                border: 1px solid #ccc;
-                padding: 20px;
-                border-radius: 8px;
-            }
-
-            .form-row {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 15px;
-            }
-
-            .form-group {
-                flex-grow: 1;
-                margin-right: 10px;
-                margin-bottom: 10px;
-            }
-
-            .table {
-                border: 1px solid #ccc;
-                border-collapse: collapse;
-                width: 100%;
-            }
-
-                .table th, .table td {
-                    border: 1px solid #ccc;
-                    padding: 8px;
-                }
-
-                .table th {
-                    background-color: #f2f2f2;
-                }
-        </style>
     </head>
     <body>
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-md-12">
-                    <h1 class="mb-4 text-center">List Of Countries</h1>
-
-                    <div class="form-header">
-                        <form method="post">
-                            <div class="form-row align-items-center">
-                                <div class="col">
-                                    <input type="hidden" id="id" name="NewCountry.id" value="@Model.NewCountry.id" />
-                                    <label for="countryName" class="form-label required-label">Name</label>
-                                    <input type="text" id="countryName" name="NewCountry.countryName" class="form-control" placeholder="Enter Country Name" value="@Model.NewCountry.countryName" />
-                                </div>
-                                <div class="col-auto" style="margin-top: 30px;">
-                                <div class="clearfix"></div>
-                                    <button type="submit" class="btn btn-primary">Add Country</button>
+        <!-- Page content -->
+        <div id="page-content-wrapper">
+            <div class="page-content">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="header-icon">
+                        <i class="fa fa-flag"></i>
+                    </div>
+                    <div class="header-title">
+                        <h1> List Of Countries</h1>
+                        <small></small>
+                        <ul class="link hidden-xs">
+                            <li><a asp-area="" asp-page="/Index"><i class="fa fa-home"></i>Home</a></li>
+                            <li><a asp-area="" asp-page="/Countries/Country">Country</a></li>
+                        </ul>
+                    </div>
+                </section>
+                <!-- page section -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="row">
+                                        <form class="col s12 m-t-20" method="post">
+                                            <div class="input-field form-input col s10">
+                                                <i class="material-icons prefix">account_circle</i>
+                                                <input id="icon_prefix" type="text" class="validate">
+                                                <label for="icon_prefix">Country Name</label>
+                                            </div>
+                                            <div class="input-field form-input col s2">
+                                                <a type="submit" class="waves-effect waves-light btn blue">Add Country</a>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </form>
-
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="col-md-5">Name </th>
+                                                    <th scope="col" class="col-md-5">Created On</th>
+                                                    <th scope="col" class="col-md-2">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Australia</td>
+                                                    <td>2024-05-16 12:44:06 PM</td>
+                                                    <td>
+                                                        <button class="btn btn-sm" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                                        <button id="modal2" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Created On</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (Country item in Model.CountryList)
-                            {
-                                <tr>
-                                    <td>@item.countryName</td>
-                                    <td>@item.createdOn</td>
-                                    <td>
-                                        <!-- Delete Button -->
-                                        <a href="#" class="btn btn-danger" onclick="deleteEntry('@item.id')">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                        <!-- Edit Button -->
-                                        <a href="#" class="btn btn-primary" onclick="editEntry('@item.id')">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                    <!-- ./row -->
                 </div>
+                <!-- ./cotainer -->
             </div>
+            <!-- ./page-content -->
         </div>
-
-        <!-- Warning HTML -->
-        <div id="customAlert" class="alert alert-warning alert-dismissible fade show" role="alert" style="display: none;">
-            <!-- Alert message content -->
-            Are you sure you want to delete this ?
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-
-        <!-- Confirm HTML -->
-        <div id="customConfirm" class="custom-confirm">
-            <div class="custom-confirm-content">
-                <p id="confirmMessage">Are you sure you want to perform this action?</p>
-                <div class="buttons">
-                    <button id="confirmButton">Confirm</button>
-                    <button id="cancelButton">Cancel</button>
-                </div>
-            </div>
-        </div>
+        <!-- ./page-content-wrapper -->
 
 
         
@@ -177,6 +133,32 @@
                     });
                 }
             }
+
+            function main() {
+                var $body = $('body');
+                $('#modal2').click(function () {
+                    ssi_modal.confirm({
+                        content: 'Are you sure you want to exit?',
+                        okBtn: {
+                            className: 'btn btn-primary'
+                        },
+                        cancelBtn: {
+                            className: 'btn btn-danger'
+                        }
+                    }, function (result) {
+                        if (result)
+                            ssi_modal.notify('success', {
+                                content: 'Result: ' + result
+                            });
+                        else
+                            ssi_modal.notify('error', {
+                                content: 'Result: ' + result
+                            });
+                    });
+                });
+            }
+
+            main();
         </script>
     </body>
 
